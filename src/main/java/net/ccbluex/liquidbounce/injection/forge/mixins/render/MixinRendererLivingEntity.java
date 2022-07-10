@@ -124,7 +124,6 @@ public abstract class MixinRendererLivingEntity extends MixinRender {
                 GL11.glBlendFunc(770, 771);
                 GL11.glDisable(2896);
                 GL11.glPolygonMode(1032, 6914);
-                chams.setColor();
 
                 this.mainModel.render(entitylivingbaseIn, p_77036_2_, p_77036_3_, p_77036_4_, p_77036_5_, p_77036_6_, scaleFactor);
 

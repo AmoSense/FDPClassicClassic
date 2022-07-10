@@ -36,19 +36,19 @@ public abstract class MixinRendererLivingEntity extends MixinRender {
 
     @Inject(method = "doRender", at = @At("HEAD"))
     private <T extends EntityLivingBase> void injectChamsPre(T entity, double x, double y, double z, float entityYaw, float partialTicks, CallbackInfo callbackInfo) {
-        final Chams chams = LiquidBounce.moduleManager.getModule(Chams.class);
+        final Chams chams = (Chams) LiquidBounce.moduleManager.getModule(Chams.class);
 
-        if (chams.getState() && chams.getTargetsValue().get() && EntityUtils.INSTANCE.isSelected(entity, false)) {
+        if (chams.getState() && chams.getTargetsValue().get() && EntityUtils.isSelected(entity, false)) {
             GL11.glEnable(GL11.GL_POLYGON_OFFSET_FILL);
             GL11.glPolygonOffset(1.0F, -1000000F);
         }
     }
 
-    @Inject(method = "doRender", at = @At("RETURN"))
+    @Inject(method = "doRender(Lnet/minecraft/entity/EntityLivingBase;DDDFF)V", at = @At("RETURN"))
     private <T extends EntityLivingBase> void injectChamsPost(T entity, double x, double y, double z, float entityYaw, float partialTicks, CallbackInfo callbackInfo) {
-        final Chams chams = LiquidBounce.moduleManager.getModule(Chams.class);
+        final Chams chams = (Chams) LiquidBounce.moduleManager.getModule(Chams.class);
 
-        if (chams.getState() && chams.getTargetsValue().get() && EntityUtils.INSTANCE.isSelected(entity, false)) {
+        if (chams.getState() && chams.getTargetsValue().get() && EntityUtils.isSelected(entity, false)) {
             GL11.glPolygonOffset(1.0F, 1000000F);
             GL11.glDisable(GL11.GL_POLYGON_OFFSET_FILL);
         }
@@ -113,28 +113,6 @@ public abstract class MixinRendererLivingEntity extends MixinRender {
             }
 
             this.mainModel.render(entitylivingbaseIn, p_77036_2_, p_77036_3_, p_77036_4_, p_77036_5_, p_77036_6_, scaleFactor);
-
-            final Chams chams = LiquidBounce.moduleManager.getModule(Chams.class);
-            if (chams.getState() && chams.getTargetsValue().get() && EntityUtils.INSTANCE.isSelected(entitylivingbaseIn, false)) {
-                GL11.glPushMatrix();
-                GL11.glPushAttrib(1048575);
-                GL11.glDisable(2929);
-                GL11.glDisable(3553);
-                GL11.glEnable(3042);
-                GL11.glBlendFunc(770, 771);
-                GL11.glDisable(2896);
-                GL11.glPolygonMode(1032, 6914);
-
-                this.mainModel.render(entitylivingbaseIn, p_77036_2_, p_77036_3_, p_77036_4_, p_77036_5_, p_77036_6_, scaleFactor);
-
-                GL11.glEnable(2896);
-                GL11.glDisable(3042);
-                GL11.glEnable(3553);
-                GL11.glEnable(2929);
-                GL11.glColor3d(1.0, 1.0, 1.0);
-                GL11.glPopAttrib();
-                GL11.glPopMatrix();
-            }
 
             if(semiVisible) {
                 GlStateManager.disableBlend();
